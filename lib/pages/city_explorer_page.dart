@@ -57,6 +57,8 @@ class _ExploreCityState extends State<ExploreCity> {
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
+        height: 600.0,
+        margin: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 10.0),
         child: Material(
           elevation: 4.0,
           shape: RoundedRectangleBorder(
@@ -74,7 +76,7 @@ class _ExploreCityState extends State<ExploreCity> {
     );
   }
 
-  _onPageChanged(int, index) {
+  _onPageChanged(int index) {
     setState(() {
       currentPage = index;
     });
