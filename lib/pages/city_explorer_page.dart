@@ -29,7 +29,7 @@ class _ExploreCityState extends State<ExploreCity> {
   void initState() {
     super.initState();
     _pageController = PageController(
-        initialPage: currentPage, keepPage: true, viewportFraction: 0.8);
+        initialPage: currentPage, keepPage: false, viewportFraction: 0.8);
   }
 
   @override
@@ -49,16 +49,18 @@ class _ExploreCityState extends State<ExploreCity> {
         pageSnapping: true,
         onPageChanged: _onPageChanged,
         itemCount: 5,
+        physics: ClampingScrollPhysics(),
       ),
     );
   }
 
   Widget itemBuilder(index) {
+    print("$index ${_pageController.page}");
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
         height: 600.0,
-        margin: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 10.0),
+        margin: const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
         child: Material(
           elevation: 4.0,
           shape: RoundedRectangleBorder(
@@ -67,9 +69,19 @@ class _ExploreCityState extends State<ExploreCity> {
               bottomRight: Radius.circular(10.0),
             ),
           ),
-          child: Image.asset(
-            imagesList[index],
-            fit: BoxFit.fill,
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(15.0),
+                bottomRight: Radius.circular(15.0),
+              ),
+              child: Image.asset(
+                imagesList[index],
+                fit: BoxFit.fill,
+              ),
+            ),
           ),
         ),
       ),
@@ -78,6 +90,7 @@ class _ExploreCityState extends State<ExploreCity> {
 
   _onPageChanged(int index) {
     setState(() {
+      print(index);
       currentPage = index;
     });
   }
