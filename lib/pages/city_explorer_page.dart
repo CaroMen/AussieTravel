@@ -55,32 +55,55 @@ class _ExploreCityState extends State<ExploreCity> {
   }
 
   Widget itemBuilder(index) {
-    print("$index ${_pageController.page}");
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        height: 600.0,
-        margin: const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
-        child: Material(
-          elevation: 4.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10.0),
-              bottomRight: Radius.circular(10.0),
+    // print("$index ${_pageController.page}");
+    return AnimatedBuilder(
+      animation: _pageController,
+      builder: (context, child) {
+        double value = 1;
+        if (_pageController.position.haveDimensions) {
+          value = _pageController.page - index;
+          value = (1 - (value.abs() * 0.5)).clamp(0.0, 1.0);
+          return Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              height: Curves.easeIn.transform(value) * 600,
+              margin:
+                  const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
+              child: child,
             ),
+          );
+        } else {
+          return Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              height:
+                  Curves.easeIn.transform(index == 0 ? value : value * 0.5) *
+                      600,
+              margin:
+                  const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
+              child: child,
+            ),
+          );
+        }
+      },
+      child: Material(
+        elevation: 4.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10.0),
+            bottomRight: Radius.circular(10.0),
           ),
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15.0),
-                bottomRight: Radius.circular(15.0),
-              ),
-              child: Image.asset(
-                imagesList[index],
-                fit: BoxFit.fill,
-              ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15.0),
+              bottomRight: Radius.circular(15.0),
+            ),
+            child: Image.asset(
+              imagesList[index],
+              fit: BoxFit.fitHeight,
             ),
           ),
         ),
