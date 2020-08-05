@@ -66,7 +66,7 @@ class _ExploreCityState extends State<ExploreCity> {
           return Align(
             alignment: Alignment.topCenter,
             child: Container(
-              height: Curves.easeIn.transform(value) * 600,
+              height: Curves.easeIn.transform(value) * 500,
               margin:
                   const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
               child: child,
@@ -78,7 +78,7 @@ class _ExploreCityState extends State<ExploreCity> {
             child: Container(
               height:
                   Curves.easeIn.transform(index == 0 ? value : value * 0.5) *
-                      600,
+                      500,
               margin:
                   const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 10.0),
               child: child,
