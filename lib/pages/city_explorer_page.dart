@@ -1,3 +1,4 @@
+import 'package:AussieTravel/model/detail.dart';
 import 'package:flutter/material.dart';
 
 final imagesList = [
@@ -41,15 +42,55 @@ class _ExploreCityState extends State<ExploreCity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView.builder(
-        itemBuilder: (context, index) {
-          return itemBuilder(index);
-        },
-        controller: _pageController,
-        pageSnapping: true,
-        onPageChanged: _onPageChanged,
-        itemCount: 5,
-        physics: ClampingScrollPhysics(),
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            height: 500.0,
+            child: PageView.builder(
+              itemBuilder: (context, index) {
+                return itemBuilder(index);
+              },
+              controller: _pageController,
+              pageSnapping: true,
+              onPageChanged: _onPageChanged,
+              itemCount: 5,
+              physics: ClampingScrollPhysics(),
+            ),
+          ),
+          _detailsBuilder(currentPage),
+        ],
+      ),
+    );
+  }
+
+  Widget _detailsBuilder(index) {
+    return Expanded(
+      child: Column(
+        children: <Widget>[
+          Text(
+            detailsList[index].title,
+            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
+          ),
+          SizedBox(height: 20.0),
+          Text(
+            detailsList[index].description,
+            style: TextStyle(fontSize: 18.0),
+          ),
+          SizedBox(
+            height: 30.0,
+          ),
+          Container(
+            width: 80.0,
+            height: 5.0,
+            color: Colors.black,
+          ),
+          Text(
+            "Read More",
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w900),
+          ),
+        ],
       ),
     );
   }
