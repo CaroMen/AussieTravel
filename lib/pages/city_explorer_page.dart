@@ -14,7 +14,8 @@ final colorList = [
   Colors.amber[200],
   Colors.blueGrey[400],
   Colors.pinkAccent[200],
-  Colors.deepPurpleAccent[300]
+  Colors.deepPurple[300],
+  Colors.cyanAccent[300],
 ];
 
 class ExploreCity extends StatefulWidget {
@@ -42,56 +43,86 @@ class _ExploreCityState extends State<ExploreCity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
         children: <Widget>[
-          Container(
-            height: 500.0,
-            child: PageView.builder(
-              itemBuilder: (context, index) {
-                return itemBuilder(index);
-              },
-              controller: _pageController,
-              pageSnapping: true,
-              onPageChanged: _onPageChanged,
-              itemCount: 5,
-              physics: ClampingScrollPhysics(),
-            ),
+          AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            color: colorList[currentPage],
           ),
-          _detailsBuilder(currentPage),
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                height: 500.0,
+                child: PageView.builder(
+                  itemBuilder: (context, index) {
+                    return itemBuilder(index);
+                  },
+                  controller: _pageController,
+                  pageSnapping: true,
+                  onPageChanged: _onPageChanged,
+                  itemCount: 5,
+                  physics: ClampingScrollPhysics(),
+                ),
+              ),
+              _detailsBuilder(currentPage),
+            ],
+          ),
         ],
       ),
     );
   }
 
   Widget _detailsBuilder(index) {
-    return Expanded(
-      child: Column(
-        children: <Widget>[
-          Text(
-            detailsList[index].title,
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
+    return AnimatedBuilder(
+      animation: _pageController,
+      builder: (context, child) {
+        double value = 1;
+        if (_pageController.position.haveDimensions) {
+          value = _pageController.page - index;
+          value = (1 - (value.abs() * 0.5)).clamp(0.0, 1.0);
+        }
+
+        return Expanded(
+          child: Transform.translate(
+            offset: Offset(0, 100 + (-value * 100)),
+            child: Opacity(
+              opacity: value,
+              child: Container(
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      detailsList[index].title,
+                      style: TextStyle(
+                          fontSize: 24.0, fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(height: 20.0),
+                    Text(
+                      detailsList[index].description,
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    Container(
+                      width: 80.0,
+                      height: 5.0,
+                      color: Colors.black,
+                    ),
+                    Text(
+                      "Read More",
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.w900),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          SizedBox(height: 20.0),
-          Text(
-            detailsList[index].description,
-            style: TextStyle(fontSize: 18.0),
-          ),
-          SizedBox(
-            height: 30.0,
-          ),
-          Container(
-            width: 80.0,
-            height: 5.0,
-            color: Colors.black,
-          ),
-          Text(
-            "Read More",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w900),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
