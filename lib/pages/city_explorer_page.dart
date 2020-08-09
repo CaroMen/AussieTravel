@@ -10,11 +10,11 @@ final imagesList = [
 ];
 
 final colorList = [
-  Colors.blueAccent,
-  Colors.amber[200],
-  Colors.blueGrey[400],
-  Colors.pinkAccent[200],
-  Colors.deepPurple[300],
+  Colors.deepPurple[100],
+  Colors.amber[50],
+  Colors.cyan[50],
+  Colors.pink[100],
+  Colors.deepPurple[100],
   Colors.cyanAccent[300],
 ];
 
